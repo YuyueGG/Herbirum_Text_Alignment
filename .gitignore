@@ -1,2 +1,4 @@
 checkpoints_release/
-dataset/
+original_sheets/
+segmented_plants/
+dataset/splits/
