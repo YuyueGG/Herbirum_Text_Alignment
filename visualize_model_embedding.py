@@ -269,6 +269,27 @@ def build_vivid_color_table(n_classes: int, seed: int, counts: Optional[np.ndarr
 
     return np.clip(colors, 0, 1)
 
+def pretty_arch_name(arch: str) -> str:
+    """Convert an internal architecture name into a display-friendly name."""
+    mapping = {
+        "resnet": "ResNet",
+        "convnext": "ConvNeXt",
+        "swin": "Swin",
+    }
+    return mapping.get(arch.lower(), arch)
+
+
+def pretty_model_name(family: str, arch: str) -> str:
+    """Build a user-facing model name without internal project acronyms."""
+    arch_name = pretty_arch_name(arch)
+
+    if family == "alignment":
+        return f"{arch_name} Ours"
+
+    if family == "baseline":
+        return f"{arch_name} Baseline"
+
+    return arch_name
 
 def set_square_limits(ax, embedding: np.ndarray, pad: float = 0.06) -> None:
     """Set square axes for cleaner visual comparison."""
@@ -782,14 +803,10 @@ def main() -> None:
         perplexity=args.perplexity,
     )
 
-    title_parts = [
-        args.family.capitalize(),
-        effective_arch,
-    ]
-    if args.preset is not None:
-        title_parts.append(args.preset)
-    title = " | ".join(title_parts)
+    title = pretty_model_name(args.family, effective_arch)
 
+    model_slug = f"{effective_arch}_{'ours' if args.family == 'alignment' else 'baseline'}"
+    output_prefix = output_prefix.parent / f"{output_prefix.stem}_{model_slug}"
     out_png = output_prefix.with_suffix(".png")
     out_pdf = output_prefix.with_suffix(".pdf")
 

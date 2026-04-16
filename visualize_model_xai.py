@@ -124,6 +124,27 @@ def default_label2id_path(preset: Optional[str]) -> Path:
         return REPO_ROOT / "examples" / "sample_jsonl" / "label2id9.json"
     return REPO_ROOT / "examples" / "sample_jsonl" / "label2id.json"
 
+def pretty_arch_name(arch: str) -> str:
+    """Convert an internal architecture name into a display-friendly name."""
+    mapping = {
+        "resnet": "ResNet",
+        "convnext": "ConvNeXt",
+        "swin": "Swin",
+    }
+    return mapping.get(arch.lower(), arch)
+
+
+def pretty_model_name(family: str, arch: str) -> str:
+    """Build a user-facing model name without internal project acronyms."""
+    arch_name = pretty_arch_name(arch)
+
+    if family == "alignment":
+        return f"{arch_name} Ours"
+
+    if family == "baseline":
+        return f"{arch_name} Baseline"
+
+    return arch_name
 
 def load_json(path: Path) -> dict:
     """Load a JSON file."""
@@ -629,10 +650,9 @@ def main() -> None:
             device=device,
         )
         x = load_alignment_input(image_path, device)
-        model_name = args.preset
     else:
         arch = args.arch
-        use_tta = False if args.disable_tta else False
+        use_tta = False
         model = load_baseline_model(
             arch=arch,
             checkpoint_path=checkpoint_path,
@@ -640,7 +660,9 @@ def main() -> None:
             device=device,
         )
         x = load_baseline_input(image_path, device)
-        model_name = f"baseline_{arch}"
+
+    model_display_name = pretty_model_name(args.family, arch)
+    model_file_name = f"{arch}_{'ours' if args.family == 'alignment' else 'baseline'}"
 
     gt_name = get_label_from_filename(image_path)
     gt_id = label2id.get(gt_name, None)
@@ -667,7 +689,7 @@ def main() -> None:
     )
 
     specimen_id = extract_specimen_id(image_path)
-    output_stem = f"{model_name}_{args.target_mode}_{specimen_id}"
+    output_stem = f"{model_file_name}_{args.target_mode}_{specimen_id}"
     out_png = output_dir / f"{output_stem}.png"
     out_pdf = output_dir / f"{output_stem}.pdf"
 
@@ -677,7 +699,7 @@ def main() -> None:
 
     title_input = "Input image"
     title_cam = f"CAM | target={target_text}"
-    title_overlay = f"{model_name} | pred={pred_text} | gt={gt_text}"
+    title_overlay = f"{model_display_name} | pred={pred_text} | gt={gt_text}"
 
     save_xai_panel(
         rgb=rgb,
@@ -690,7 +712,7 @@ def main() -> None:
         out_pdf=out_pdf,
     )
 
-    print(f"[Done] Model: {model_name}")
+    print(f"[Done] Model: {model_display_name}")
     print(f"[Done] Device: {device}")
     print(f"[Done] Prediction: {pred_id} ({pred_text})")
     print(f"[Done] CAM target: {target_id} ({target_text})")

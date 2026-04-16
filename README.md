@@ -45,7 +45,13 @@ bash scripts/train_convnext9.sh
 bash scripts/train_swin9.sh
 ```
 
-### Visualisation
+## Checkpoints
+
+Released checkpoints are available on the repository release page:
+
+[GitHub Releases](https://github.com/YuyueGG/Herbirum_Text_Alignment/releases)
+
+## Visualisation
 
 Example visualisation scripts:
 - `visualize_model_xai.py`
