@@ -23,12 +23,12 @@ conda create create -f environment.yml
 conda activate herbarium_text_alignment
 ```
 
-## Data
+## Dataset
 
 The paper uses the Cyrtandra-44 dataset.
 
 The full dataset is provided separately:
-[Google Drive dataset link](https://drive.google.com/drive/folders/1uKQd4RO2eWwxaCXMOM09sCnJzB_eXAZF?usp=sharing)
+[Cyrtandra-44 dataset](https://drive.google.com/drive/folders/1uKQd4RO2eWwxaCXMOM09sCnJzB_eXAZF?usp=sharing)
 
 Additional access information is available in `data/README.md`.
 
@@ -47,9 +47,7 @@ bash scripts/train_swin9.sh
 
 ## Checkpoints
 
-Released checkpoints are available on the repository release page:
-
-[GitHub Releases](https://github.com/YuyueGG/Herbirum_Text_Alignment/releases)
+Released checkpoints are available on the repository [release page](https://github.com/YuyueGG/Herbirum_Text_Alignment/releases).
 
 ## Visualisation
 

@@ -2,3 +2,4 @@ checkpoints_release/
 original_sheets/
 segmented_plants/
 dataset/splits/
+.gitignore
