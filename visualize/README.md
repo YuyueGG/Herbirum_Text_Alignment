@@ -1,76 +1,46 @@
-# Large Language Model–Guided Knowledge Distillation for Herbarium Image Classification
+# Visualisation Tools
 
-This repository contains the training code for our herbarium specimen classification framework. 
+This folder contains two lightweight visualisation scripts for inspecting trained herbarium specimen classification models.
 
-The current implementation provides a unified training script for multiple visual backbones and multiple alignment losses. It is designed for controlled experiments, ablation studies, and reproducible comparison across model families.
+Checkpoints are not included in the repository. Please provide the checkpoint path explicitly from the command line.
 
-## Overview
+## Scripts
 
-Herbarium specimen classification is difficult because of limited training images, class imbalance, high visual similarity among taxa, and large variation across collections. To address this, we use a multimodal training framework that combines specimen images with morphology-related text descriptions. During training, the model learns both the classification objective and the image-text alignment objective. During inference, the model only needs the image.
+### `visualize_model_embedding.py`
 
-Example herbarium sheet:
+This script extracts image features from one trained model and projects them to two dimensions for qualitative inspection of the learned feature space.
 
-![Example herbarium sheet](figures/herbarium_sheet_example.png)
-
-## Environment
-
-We recommend Python 3.10 or 3.11 and a recent CUDA-enabled PyTorch installation.
-
-Example setup:
+Example:
 
 ```bash
-conda create create -f environment.yml
-conda activate herbarium_text_alignment
+python visualize_model_embedding.py \
+  --family alignment \
+  --preset resnet44 \
+  --checkpoint path/to/resnet44_best.pt \
+  --data_jsonl examples/sample_jsonl/cyrtandra44_test.jsonl \
+  --output_prefix outputs/embedding/resnet44_ours
 ```
 
-## Dataset
+### `visualize_model_gradcam.py`
 
-The paper uses the Cyrtandra-44 dataset.
+This script generates a Grad-CAM overlay for one trained model and one specimen image.
 
-The full dataset is provided separately:
-[Cyrtandra-44 dataset](https://drive.google.com/drive/folders/1uKQd4RO2eWwxaCXMOM09sCnJzB_eXAZF?usp=sharing)
-
-Additional access information is available in `data/README.md`.
-
-Sample JSONL files and label mappings are included in `examples/sample_jsonl/`.
-
-## Training
-
+Example:
 ```bash
-bash scripts/train_resnet44.sh
-bash scripts/train_convnext44.sh
-bash scripts/train_swin44.sh
-bash scripts/train_resnet9.sh
-bash scripts/train_convnext9.sh
-bash scripts/train_swin9.sh
+python visualize_model_gradcam.py \
+  --family ours \
+  --preset resnet44 \
+  --checkpoint path/to/resnet44_best.pt
 ```
 
-## Checkpoints
+The default example image is:
+```text
+examples/sample_images/1.png
+```
 
-Released checkpoints are available on the repository [release page](https://github.com/YuyueGG/Herbirum_Text_Alignment/releases).
+## Notes
 
-## Visualisation
-
-Example visualisation scripts:
-- `visualize_model_xai.py`
-- `visualize_model_embedding.py`
-
-Example visualisation figures:
-
-<p align="center">
-  <img src="figures/tsne_points_centers.png" alt="t-SNE visualisation with class centres" width="48%">
-  <img src="figures/tsne_points.png" alt="t-SNE visualisation without class centres" width="48%">
-</p>
-
-<p align="center">
-  <em>Left: t-SNE embedding visualisation with class centres. Right: t-SNE embedding visualisation without class centres.</em>
-</p>
-
-<p align="center">
-  <img src="figures/class_activation_attribution_maps.png" alt="Class activation attribution maps" width="80%">
-</p>
-
-
-### Citation
-
-If you use this code, please cite our paper.
+* alignment and ours refer to the proposed model.
+* For reproducible figures, keep the same random seed, dimensionality reduction method, and class filtering settings.
+* Example label mappings and JSONL files are provided in  `examples/sample_jsonl/`.
+* UMAP requires the optional package `umap-learn`.
