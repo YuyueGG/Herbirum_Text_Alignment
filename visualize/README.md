@@ -58,20 +58,18 @@ Example visualisation scripts:
 Example visualisation figures:
 
 <p align="center">
-  <img src="figures/tsne_points.png" alt="t-SNE visualisation without class centres" width="80%">
+  <img src="figures/tsne_points_centers.png" alt="t-SNE visualisation with class centres" width="48%">
+  <img src="figures/tsne_points.png" alt="t-SNE visualisation without class centres" width="48%">
 </p>
 
 <p align="center">
-  <em>t-SNE embedding visualisation.</em>
+  <em>Left: t-SNE embedding visualisation with class centres. Right: t-SNE embedding visualisation without class centres.</em>
 </p>
 
 <p align="center">
-  <img src="figures/class_activation_maps.png" alt="Class activation attribution maps" width="80%">
+  <img src="figures/class_activation_attribution_maps.png" alt="Class activation attribution maps" width="80%">
 </p>
 
-<p align="center">
-  <em>Class activation maps.</em>
-</p>
 
 ### Citation
 
