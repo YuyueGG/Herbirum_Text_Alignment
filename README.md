@@ -52,8 +52,8 @@ Released checkpoints are available on the repository [release page](https://gith
 ## Visualisation
 
 Example visualisation scripts:
-- `visualize_model_xai.py`
-- `visualize_model_embedding.py`
+- `visualise_model_gradcam.py`
+- `visualise_model_embedding.py`
 
 Example visualisation figures:
 

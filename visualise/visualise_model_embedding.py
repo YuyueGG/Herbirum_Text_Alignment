@@ -284,7 +284,7 @@ def pretty_model_name(family: str, arch: str) -> str:
     arch_name = pretty_arch_name(arch)
 
     if family == "alignment":
-        return f"{arch_name} Ours"
+        return f"{arch_name} VLM-KD"
 
     if family == "baseline":
         return f"{arch_name} Baseline"
@@ -805,7 +805,7 @@ def main() -> None:
 
     title = pretty_model_name(args.family, effective_arch)
 
-    model_slug = f"{effective_arch}_{'ours' if args.family == 'alignment' else 'baseline'}"
+    model_slug = f"{effective_arch}_{'VLM-KD' if args.family == 'alignment' else 'baseline'}"
     output_prefix = output_prefix.parent / f"{output_prefix.stem}_{model_slug}"
     out_png = output_prefix.with_suffix(".png")
     out_pdf = output_prefix.with_suffix(".pdf")

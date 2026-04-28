@@ -135,7 +135,7 @@ def pretty_model_name(family: str, arch: str) -> str:
     arch_name = pretty_arch_name(arch)
 
     if family == "ours":
-        return f"{arch_name} Ours"
+        return f"{arch_name} VLM-KD"
 
     if family == "baseline":
         return f"{arch_name} Baseline"
