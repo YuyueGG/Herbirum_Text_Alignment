@@ -1,4 +1,4 @@
-# Large Language Model–Guided Knowledge Distillation for Herbarium Image Classification
+# Vision-Language Model Enhanced Knowledge Distillation for Herbarium Image Classification
 
 This repository contains the training code for our herbarium specimen classification framework. 
 
